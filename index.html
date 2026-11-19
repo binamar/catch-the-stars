@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Catch the Stars</title>
+<style>html,body{margin:0;height:100%;background:#0b1026;overflow:hidden;touch-action:none}canvas{display:block;width:100%;height:100%}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+let W,H;function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();onresize=rs;
+let px,score,lives,stars,t,over,best=0;
+function start(){px=W/2;score=0;lives=3;stars=[];t=0;over=false}start();
+function mv(e){px=(e.touches?e.touches[0].clientX:e.clientX)}
+onmousemove=mv;ontouchmove=mv;ontouchstart=e=>{mv(e);if(over)start()};onclick=()=>{if(over)start()};
+onkeydown=e=>{if(e.key=='ArrowLeft')px-=40;if(e.key=='ArrowRight')px+=40;if(over&&e.key==' ')start()};
+function loop(){
+ x.fillStyle='#0b1026';x.fillRect(0,0,W,H);
+ if(!over){
+  t++;
+  if(t%Math.max(18,50-Math.floor(score/5)*2)==0)stars.push({x:Math.random()*(W-30)+15,y:-20,v:2+Math.random()*2+score/20});
+  for(const s of stars)s.y+=s.v;
+  const by=H-50;
+  stars=stars.filter(s=>{
+   if(s.y>by-10&&s.y<by+20&&Math.abs(s.x-px)<45){score++;return false}
+   if(s.y>H){lives--;if(lives<=0){over=true;best=Math.max(best,score)}return false}
+   return true});
+ }
+ x.fillStyle='#ffd34d';x.font='28px sans-serif';x.textAlign='center';
+ for(const s of stars)x.fillText('\u2605',s.x,s.y);
+ x.fillStyle='#6ec1ff';x.fillRect(px-45,H-50,90,16);
+ x.fillStyle='#fff';x.font='20px sans-serif';x.textAlign='left';
+ x.fillText('Score: '+score+'   Lives: '+'\u2764'.repeat(Math.max(lives,0)),12,28);
+ if(over){x.textAlign='center';x.font='36px sans-serif';x.fillText('Game Over',W/2,H/2-20);
+  x.font='20px sans-serif';x.fillText('Score '+score+' | Best '+best,W/2,H/2+15);x.fillText('Tap to play again',W/2,H/2+50)}
+ requestAnimationFrame(loop)}
+loop();
+</script></body></html>

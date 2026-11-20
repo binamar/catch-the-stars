@@ -1,0 +1,7 @@
+# Project Notes
+
+- **Goal:** Offline 3D tactical mini-game (single building, objective button, credits screen with "Created by Mohamed Ammar & Claude", return to menu, FPS & error log toggle).
+- **Build & Release:** Automated via GitHub Actions to produce an Android APK and publish to GitHub Releases.
+- **Token Rule:** Keep replies concise, edit only relevant files, and avoid dumping full unchanged files when not needed.
+- **Current Status:** [Write current step here, e.g., Initial setup / Room & lighting / Controls / APK workflow].
+- **Last Issue / Fix:** [Write latest build or runtime issue and how it was resolved].
